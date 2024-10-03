@@ -2,6 +2,7 @@ package com.example.actividad22;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnDescargarImagen;
     private ImageView mImageView;
+    private String imageUrl = "https://intecorecoleta.cl/wp-content/uploads/2022/08/programacion-2-e1551291144973.jpg";
+    private Bitmap loadedBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +41,44 @@ public class MainActivity extends AppCompatActivity {
         btnDescargarImagen = findViewById(R.id.btnDescargarImagen);
         mImageView = findViewById(R.id.mImageView);
 
+        if (savedInstanceState != null) {
+            loadedBitmap = savedInstanceState.getParcelable("imageBitmap");
+            if (loadedBitmap != null) {
+                mImageView.setImageBitmap(loadedBitmap);
+            }
+        }
+
         btnDescargarImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final Bitmap bitmap = loadImageFromNetwork("https://intecorecoleta.cl/wp-content/uploads/2022/08/programacion-2-e1551291144973.jpg");
+                        loadedBitmap = loadImageFromNetwork(imageUrl);
                         mImageView.post(new Runnable() {
                             @Override
                             public void run() {
-                                mImageView.setImageBitmap(bitmap);
+                                mImageView.setImageBitmap(loadedBitmap);
                             }
                         });
                     }
                 }).start();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("imageBitmap", loadedBitmap);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (loadedBitmap != null) {
+            mImageView.setImageBitmap(loadedBitmap);
+        }
     }
 
     private Bitmap loadImageFromNetwork(String urlString) {
