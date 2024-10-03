@@ -7,18 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/mImageView"
-        android:layout_width="343dp"
-        android:layout_height="364dp"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="183dp" />
-
     <Button
         android:id="@+id/btnDescargarImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="124dp"
         android:text="Descargar Imagen"
-        tools:layout_editor_absoluteX="123dp"
-        tools:layout_editor_absoluteY="594dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/mImageView"
+        android:layout_width="343dp"
+        android:layout_height="364dp"
+        android:layout_marginTop="116dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
